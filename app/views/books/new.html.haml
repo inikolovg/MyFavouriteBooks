@@ -1,0 +1,26 @@
+%h2 Create New Book
+
+= form_tag books_path, :method => :post do
+  - unless @book.errors.empty?
+    #warning
+      Errors prevented this book from being #{controller.action_name}d:
+      %ul
+        - @book.errors.full_messages.each do |error|
+          %li= error
+            
+  = label :book, :title, 'Title'
+  = text_field :book, :title
+ 
+  = label :book, :genre, 'Genre'
+  = select :book, :genre, ['Science fiction','Drama','Action and Adventure','Romance','Mystery','Horror']
+ 
+  = label :book, :description, 'Description:'
+  = text_area :book, :description
+  
+  = label :book, :isnb_number, 'ISNB Nnumber:'
+  = text_field :book, :isnb_number
+
+  = label :book, :publish_date, 'Published On'
+  = date_select :book, :publish_date
+  
+  = submit_tag 'Save Changes'
