@@ -1,17 +1,25 @@
 %h1 All Books
-
+= form_tag books_path, :method => :get, :id => 'genres_form' do
+  = hidden_field_tag "title_sort", true if @title_header
+  = hidden_field_tag ":publish_date_sort", true if @date_header
+  Include:
+  - @all_genres.each do |genre|
+    = genre
+    = check_box_tag "genres[#{genre}]", 1, @selected_genres.include?(genre), :id => "genres_#{genre}"
+  = submit_tag 'Filter', :id =>'genres_dubmit'
+  
 %table#books
   %thead
     %tr
-      %th Book Title
+      %th{:class => @title_header}= link_to 'Book Title', books_path(:sort => 'title'), :id => 'title_header'
       %th Genre
       %th ISNB Number
-      %th Published Date
+      %th{:class => @date_header}= link_to 'Publish Date', books_path(:sort => 'publish_date'), :id => 'publish_date_header'
       %th More Info
   %tbody
     - @books.each do |book|
       %tr
-        %td= book.title 
+        %td= book.title
         %td= book.genre
         %td= book.isnb_number
         %td= book.publish_date
